@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouTube RSS Feed Extractor</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+    }
+    textarea {
+        width: 50%; /* Adjust the width to half */
+        min-height: 150px; /* Adjust the height to half */
+        resize: vertical;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    button {
+        margin-top: 10px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+    .output {
+        margin-top: 20px;
+    }
+    .output a {
+        display: block;
+        margin-bottom: 5px;
+        color: #007bff;
+    }
+</style>
+</head>
+<body>
+    <h2>YouTube RSS Feed Extractor</h2>
+    <p>Paste the source code of a YouTube channel page below:</p>
+    <textarea id="sourceCode" placeholder="Paste the source code here..."></textarea>
+    <button onclick="extractRSSLinks()">Extract RSS Feeds</button>
+
+    <div id="output" class="output">
+        <!-- Output will be displayed here -->
+    </div>
+
+    <script>
+        function extractRSSLinks() {
+            const sourceCode = document.getElementById('sourceCode').value;
+            const regex = /https:\/\/www\.youtube\.com\/feeds\/videos\.xml\?channel_id=[\w-]+/g;
+            const matches = sourceCode.match(regex);
+            const outputDiv = document.getElementById('output');
+
+            // Clear previous results
+            outputDiv.innerHTML = '';
+
+            if (matches) {
+                matches.forEach(url => {
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.textContent = url;
+                    link.target = '_blank'; // Open links in a new tab
+                    outputDiv.appendChild(link);
+                });
+            } else {
+                outputDiv.textContent = 'No RSS feed links found.';
+            }
+        }
+    </script>
+</body>
+</html>
